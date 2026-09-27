@@ -39,10 +39,14 @@ python -m pytest -q
 
 Expected: **12/12 API tests pass** (6 records x 2 endpoints), pytest green.
 
-## Live mode (optional — regenerates cases/data via the LLM)
+## Live mode (optional — regenerates cases/data via an LLM)
+
+The LLM layer is **provider-agnostic** (`core/llm.py`): pick a provider with `LLM_PROVIDER`
+(default `anthropic`, `openai` supported) and set the matching key. The framework is not
+locked to one vendor — swapping providers is a small change in one file.
 
 ```bash
-cp .env.example .env          # then add your ANTHROPIC_API_KEY
+cp .env.example .env          # set LLM_PROVIDER and the matching API key
 python -m examples.run_live   # re-generates package.json + all adapter outputs
 ```
 

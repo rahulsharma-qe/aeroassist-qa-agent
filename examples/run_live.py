@@ -1,4 +1,4 @@
-"""Live demo — REQUIRES ANTHROPIC_API_KEY (set it in your environment or a .env file).
+"""Live demo — REQUIRES an LLM API key (set LLM_PROVIDER + the matching key in the env / .env).
 
 Runs the full QA agent (generate -> review -> approve-policy -> revise -> data -> validate),
 then renders all five stack outputs from the one fresh package. This regenerates artifacts;

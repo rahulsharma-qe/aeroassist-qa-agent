@@ -1,32 +1,27 @@
 # Architecture & Design Decisions
 
-A short tour of *why* this is built the way it is. The code is the *what*; this is the *why*
-you'd walk an interviewer through.
+A short tour of *why* this is built the way it is. The code is the *what*; this is the *why*.
 
 ## The shape
 
+```mermaid
+flowchart TD
+    R[requirement] --> GC[generate_cases]
+    GC --> RG["review_gate — 2nd LLM critic"]
+    RG --> HA{"human / auto approval"}
+    HA --> RV["revise_cases — approved feedback only"]
+    RV --> GD[generate_data]
+    GD --> VD["validate_data — Card D: rules + LLM"]
+    VD --> PKG["framework-agnostic package"]
+    PKG --> A1["Python API — SOLID (runnable)"]
+    PKG --> A2["REST Assured — reference"]
+    PKG --> A3["Apache + TestNG — reference"]
+    PKG --> A4["BDD / Gherkin — reference"]
+    PKG --> A5["Playwright — reference"]
 ```
-requirement (plain text)
-      |
-      v
-+--------------------------------------------------------------+
-|  CORE  (framework-agnostic, the "brain")                     |
-|    generate_cases  ->  review_gate (2nd LLM critic)          |
-|                    ->  human/auto approval                    |
-|                    ->  revise_cases (approved feedback only)  |
-|                    ->  generate_data                          |
-|                    ->  validate_data (HYBRID: rules + LLM)    |
-|    = a framework-agnostic package  { cases, data, ... }       |
-+--------------------------------------------------------------+
-      |  one package, one oracle
-      v
-+-----------+-------------+--------------+-----------+-------------+
-| Python API| REST Assured| Apache+TestNG|    BDD    | Playwright  |
-|  SOLID    |  reference  |  reference   | reference | reference   |
-| (runnable)|  (Java DSL) | (build-your- | (Gherkin) |   (UI)      |
-|           |             |  own style)  |           |             |
-+-----------+-------------+--------------+-----------+-------------+
-```
+
+*(GitHub renders the Mermaid block above as a diagram. It is diagram-as-code — versioned and
+diffable like the rest of the repo.)*
 
 ## Decisions
 
@@ -62,6 +57,11 @@ requirement (plain text)
    for lookups it is reference data (`_get_booking_oracle` checks the API response against the
    source-of-truth store). Response assertions verify what the API *said*; state verification
    confirms what it *did*.
+
+9. **Provider-agnostic LLM layer.** The core talks to a thin `LLMClient.complete()` interface,
+   not a vendor SDK. The provider is chosen by an env var (`LLM_PROVIDER`, default `anthropic`;
+   `openai` supported), so the framework is not locked to one vendor — swapping providers is a
+   small change in `core/llm.py` and nowhere else.
 
 ## Honest scope (named != claimed)
 

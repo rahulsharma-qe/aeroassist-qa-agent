@@ -1,5 +1,5 @@
 """M11 — requirement -> structured test cases (positive/negative/edge/adversarial)."""
-from .llm import get_client, extract_json, MODEL
+from .llm import get_client, extract_json
 
 SYSTEM = (
     "You are a senior QA engineer. Given a requirement, produce test cases covering "
@@ -12,8 +12,5 @@ SYSTEM = (
 
 def generate_test_cases(requirement, n=8, client=None):
     client = client or get_client()
-    resp = client.messages.create(
-        model=MODEL, max_tokens=4096, system=SYSTEM.format(n=n),
-        messages=[{"role": "user", "content": f"Requirement:\n{requirement}"}],
-    )
-    return extract_json(resp.content[0].text)
+    text = client.complete(SYSTEM.format(n=n), f"Requirement:\n{requirement}", max_tokens=4096)
+    return extract_json(text)

@@ -6,7 +6,7 @@ Knowing when NOT to use AI matters as much as knowing when to.
 """
 import re
 import json
-from .llm import get_client, extract_json, MODEL
+from .llm import get_client, extract_json
 
 _PNR = re.compile(r"^[A-Z0-9]{6}$")
 _EMAIL = re.compile(r"^[^@\s]+@testdata\.example$")
@@ -39,11 +39,7 @@ def validate_data_llm(records, client=None):
         "You are a QA data reviewer. Judge ONLY whether this dataset has genuine variety and "
         "edge coverage. Return ONLY JSON, no fences: {variety:'good'|'weak', notes:[..]}."
     )
-    resp = client.messages.create(
-        model=MODEL, max_tokens=800, system=system,
-        messages=[{"role": "user", "content": json.dumps(records, indent=2)}],
-    )
-    return extract_json(resp.content[0].text)
+    return extract_json(client.complete(system, json.dumps(records, indent=2), max_tokens=800))
 
 
 def validate_data(records, client=None, use_llm=True):

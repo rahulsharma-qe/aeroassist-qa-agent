@@ -4,5 +4,7 @@ httpx>=0.27
 python-dateutil>=2.9
 pytest>=8.0
 
-# Live mode only (regenerating cases/data via the LLM). Needs ANTHROPIC_API_KEY.
-anthropic>=0.39
+# Live mode (regenerating cases/data via an LLM). Needs an API key in the environment.
+# The LLM layer is provider-agnostic (see core/llm.py). Install the provider you use:
+anthropic>=0.39      # default provider (LLM_PROVIDER=anthropic)
+# openai>=1.40       # uncomment to use LLM_PROVIDER=openai

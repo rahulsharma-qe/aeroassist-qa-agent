@@ -1,6 +1,6 @@
 """Apply only HUMAN-APPROVED review feedback -> revised cases. Strong/security cases preserved."""
 import json
-from .llm import get_client, extract_json, MODEL
+from .llm import get_client, extract_json
 
 SYSTEM = (
     "You are a senior QA engineer revising test cases using APPROVED feedback. Apply every "
@@ -17,8 +17,4 @@ def revise_cases(requirement, cases, approved, n=10, client=None):
         f"Requirement:\n{requirement}\n\nCurrent cases:\n{json.dumps(cases, indent=2)}\n\n"
         f"Approved feedback:\n- " + "\n- ".join(approved)
     )
-    resp = client.messages.create(
-        model=MODEL, max_tokens=4096, system=SYSTEM.format(n=n),
-        messages=[{"role": "user", "content": user}],
-    )
-    return extract_json(resp.content[0].text)
+    return extract_json(client.complete(SYSTEM.format(n=n), user, max_tokens=4096))
