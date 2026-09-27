@@ -1,0 +1,8 @@
+# Runtime for the demo, SUT, and tests (no API key needed for these)
+fastapi>=0.110
+httpx>=0.27
+python-dateutil>=2.9
+pytest>=8.0
+
+# Live mode only (regenerating cases/data via the LLM). Needs ANTHROPIC_API_KEY.
+anthropic>=0.39

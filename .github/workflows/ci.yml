@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run the deterministic evaluation (no API key needed)
+        run: python -m pytest -q
+      # The quality gate: CI runs the committed samples through the engine against the
+      # mock SUT. Live LLM generation (run_live.py) is intentionally NOT in CI — evaluation
+      # must be deterministic and key-free.
