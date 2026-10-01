@@ -1,4 +1,4 @@
-"""Day-8 review gate — a SECOND LLM critiques the cases. The reviewer is also an LLM and can
+"""Review gate — a SECOND LLM critiques the cases. The reviewer is also an LLM and can
 over-correct or hallucinate, so a human is the final judge (see orchestrator)."""
 import json
 from .llm import get_client, extract_json

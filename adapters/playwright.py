@@ -1,6 +1,6 @@
 """Reference adapter — Playwright (UI, JavaScript). Covers the UI layer.
 
-Prototyped Day 10; live browser-run parked for a containerized environment.
+Prototype adapter; live browser-run parked for a containerized environment.
 """
 
 

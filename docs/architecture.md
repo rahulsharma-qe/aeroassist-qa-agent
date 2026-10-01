@@ -28,7 +28,7 @@ diffable like the rest of the repo.)*
 1. **Orchestrated pipeline, not an autonomous agent — by choice.** It coordinates generation
    into one flow. A fully autonomous agent that also *runs* tests and self-iterates is a
    staged roadmap item: you don't give a probabilistic system unsupervised execution on day one
-   (governed autonomy — inspectable, testable, reversible).
+   (bounded autonomy — inspectable, testable, reversible).
 
 2. **A validation gate at every handoff.** Orchestration without gates just makes mistakes
    travel faster. Each artifact is checked before it becomes the next stage's input.

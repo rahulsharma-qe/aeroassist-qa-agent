@@ -76,7 +76,7 @@ examples/
   run_live.py         full live generation (needs key)
   output/             committed sample package + generated artifacts (all 5 stacks)
 tests/test_engine.py  deterministic engine test (CI)
-docs/architecture.md  design decisions + interview talking points
+docs/architecture.md  design decisions + rationale
 ```
 
 ## The core ideas in one screen
